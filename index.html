@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prezent dla Angeliki! ✨</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #fce4ec; /* Light pink background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #4a4a4a;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            transition: all 0.5s ease-in-out;
+        }
+        h1 {
+            color: #e91e63; /* Pink header */
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .gift-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            margin-bottom: 30px;
+        }
+        .gift-box {
+            width: 120px;
+            height: 120px;
+            background-color: #ff80ab; /* Medium pink */
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease-in-out, background-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .gift-box:hover {
+            transform: translateY(-8px) scale(1.05);
+            background-color: #ff4081; /* Darker pink on hover */
+        }
+        .gift-box::before {
+            content: '🎁';
+            position: absolute;
+            font-size: 2.5rem;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+        }
+        .result-section img {
+            max-width: 180px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .final-question {
+            font-size: 1.8rem;
+            color: #d81b60;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+        .final-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .final-buttons button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .final-buttons .yes-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .final-buttons .yes-btn:hover {
+            background-color: #43a047;
+            transform: scale(1.05);
+        }
+        .final-buttons .no-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .final-buttons .no-btn:hover {
+            background-color: #e53935;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="intro-screen">
+            <h1>Cześć Angelika! Wybierz swój prezent!</h1>
+            <p>Alif ma dla Ciebie niespodziankę na Walentynki. Kliknij jedno z pudełek, aby odkryć, co jest w środku!</p>
+            <div class="gift-boxes">
+                <div class="gift-box" onclick="openGift(0)"></div>
+                <div class="gift-box" onclick="openGift(1)"></div>
+                <div class="gift-box" onclick="openGift(2)"></div>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-section">
+            <h2 id="gift-message"></h2>
+            <img id="gift-gif" src="" alt="Gift GIF">
+            <p class="final-question">Więc... zostaniesz moją walentynką? ✨</p>
+            <div class="final-buttons">
+                <button class="yes-btn" onclick="showFinalMessage('yes')">Tak!</button>
+                <button class="no-btn" onclick="showFinalMessage('no')">Nie!</button>
+            </div>
+        </div>
+
+        <div id="final-message-screen" class="result-section">
+            <h2 id="final-response-text"></h2>
+            <img id="final-response-gif" src="" alt="Final Response GIF">
+        </div>
+    </div>
+
+    <script>
+        const giftContents = [
+            {
+                message: "Oho! To jest kupon na... dużo śmiechu z Alifem!",
+                gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Zpc2U4dGR6YXJ2aWhwZ3Zta2N4czR1aGR5c2cxcW9oc3g2aHpqMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlSDzB293sI47y8/giphy.gif" // Funny gif
+            },
+            {
+                message: "Uuups! Wybrałaś tajemniczą kartę! Masz dodatkowy punkt za bycie super!",
+                gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3NjcGVqY3dwaG56ZGR0a3dkZW40ZmN0c3U3ZzVsMms5NGY5c3RhaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dCXbYgYjIuW5DqYQ6M/giphy.gif" // Cute star gif
+            },
+            {
+                message: "Gratulacje! Znalazłaś moją ulubioną czekoladę! (Ale tylko wirtualnie 😜)",
+                gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2t3ZG96dGxwdHRsNmt2cjhyYnp1bXh4emV4MTF4NGR6bmhpNHJ6NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xUPGcJz6pW7J3NYSXu/giphy.gif" // Chocolate gif
+            }
+        ];
+
+        function openGift(index) {
+            const gift = giftContents[index];
+            document.getElementById('gift-message').innerText = gift.message;
+            document.getElementById('gift-gif').src = gift.gif;
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+        }
+
+        function showFinalMessage(choice) {
+            const finalMessageScreen = document.getElementById('final-message-screen');
+            const finalResponseText = document.getElementById('final-response-text');
+            const finalResponseGif = document.getElementById('final-response-gif');
+
+            document.getElementById('result-screen').style.display = 'none';
+            finalMessageScreen.style.display = 'block';
+
+            if (choice === 'yes') {
+                finalResponseText.innerText = "Jeeej! Nie mogę się doczekać! To będzie super!";
+                finalResponseGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2Zic3B0YnlubXN4eXN6eXN6eXN6eXN6eXN6eXN6eXN6eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lTQF0ODLLjhza/giphy.gif"; // Happy GIF
+            } else {
+                finalResponseText.innerText = "Oj tam, oj tam! Spróbuję szczęścia następnym razem! Dzięki za zabawę! 😊";
+                finalResponseGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2p1b2d4bXp3OHh0cDRhMTJ4MGkwaGN6MnA4Zmx6cjN3ejByNzhjZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fQZXgK9vI93g768n2c/giphy.gif"; // Chill gif
+            }
+        }
+    </script>
+</body>
+</html>
